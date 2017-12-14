@@ -21,11 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView output;
 
-    String currentNumber;
-
     Calculator calculator;
-
-    Boolean hasFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         output = findViewById(R.id.output);
-        currentNumber = "";
 
         b1 = findViewById(R.id.button_1);
         b2 = findViewById(R.id.button_2);

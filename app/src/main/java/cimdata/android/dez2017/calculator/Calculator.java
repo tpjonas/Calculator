@@ -1,25 +1,24 @@
 package cimdata.android.dez2017.calculator;
 
 import android.util.Log;
-
 import java.lang.reflect.Array;
 import java.util.Observable;
 
-/**
- * Created by Student on 06.12.2017.
- */
 
 public class Calculator extends Observable{
 
-    public double left;
-    public double right;
+    private double right;
+    private double left;
 
     public static String MULTIPLY = "multiply";
     public static String ADD = "add";
     public static String SUBSTRACT = "substract";
     public static String DIVIDE = "divide";
 
-    public String operator;
+    private String operator;
+
+    private boolean decimalSet = false;
+
 
     public Calculator() {
 
