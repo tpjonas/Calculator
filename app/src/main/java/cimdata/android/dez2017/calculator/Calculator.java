@@ -17,7 +17,7 @@ public class Calculator extends Observable{
 
     private String operator;
 
-    private boolean decimalSet = false;
+    private boolean dotIsSet = false;
 
 
     public Calculator() {
@@ -26,7 +26,18 @@ public class Calculator extends Observable{
 
     }
     public void setOperator(String operator) {
+
+        calculateResult();
+
+        right = 0;
         this.operator = operator;
+
+        dotIsSet = false;
+
+        setChanged();
+        notifyObservers(left);
+
+
     }
 
     public void put(int digit) {
@@ -41,11 +52,27 @@ public class Calculator extends Observable{
             notifyObservers(right);
         }
 
+    }
 
-
+    public void setDot() {
+        dotIsSet = true;
     }
 
     public void equals() {
+
+        calculateResult();
+
+        right = 0;
+        this.operator = null;
+
+        dotIsSet = false;
+
+        setChanged();
+        notifyObservers(left);
+
+    }
+
+    private void calculateResult() {
 
         if (this.operator == MULTIPLY) {
             left = left * right;
@@ -56,19 +83,14 @@ public class Calculator extends Observable{
         } else if (this.operator == SUBSTRACT) {
             left = left - right;
         }
-
-        right = 0;
-        this.operator = null;
-
-        setChanged();
-        notifyObservers(left);
-
     }
 
     public void reset() {
 
         this.operator = null;
         left = right = 0;
+
+        dotIsSet = false;
 
         setChanged();
         notifyObservers(0);

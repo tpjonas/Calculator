@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button b_divide, b_multiply, b_plus, b_minus;
     Button b_ce;
     Button b_equals;
+    Button b_dot;
 
     TextView output;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b_minus = findViewById(R.id.button_minus);
         b_ce = findViewById(R.id.button_CE);
         b_equals = findViewById(R.id.button_equals);
+        b_dot = findViewById(R.id.button_dot);
 
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
@@ -121,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_minus:
                 calculator.setOperator(Calculator.SUBSTRACT);
                 break;
+            case R.id.button_dot:
+                calculator.setDot();
+                break;
             case R.id.button_equals:
                 calculator.equals();
                 break;
@@ -132,6 +137,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void update(Observable o, Object currentNumber) {
         output.setText(String.valueOf(currentNumber));
-        //int foo = 1;
     }
 }
