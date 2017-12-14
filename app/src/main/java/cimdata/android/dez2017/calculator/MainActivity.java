@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.Observable;
+import java.util.Observer;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, Observer {
 
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
     Button b_divide, b_multiply, b_plus, b_minus;
-    Button b_dot;
+    Button b_ce;
     Button b_equals;
 
     TextView output;
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b_multiply = findViewById(R.id.button_multiply);
         b_plus = findViewById(R.id.button_plus);
         b_minus = findViewById(R.id.button_minus);
-        b_dot = findViewById(R.id.button_dot);
+        b_ce = findViewById(R.id.button_CE);
         b_equals = findViewById(R.id.button_equals);
 
         b1.setOnClickListener(this);
@@ -63,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b_multiply.setOnClickListener(this);
         b_plus.setOnClickListener(this);
         b_minus.setOnClickListener(this);
-        b_dot.setOnClickListener(this);
+        b_ce.setOnClickListener(this);
         b_equals.setOnClickListener(this);
 
         calculator = new Calculator();
+
+        calculator.addObserver(this);
 
     }
 
@@ -75,70 +80,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = view.getId();
 
-        if (hasFinished) {
-            currentNumber = "";
-        }
-
         switch (id) {
+            case R.id.button_0:
+                calculator.put(0);
+                break;
             case R.id.button_1:
-                currentNumber += "1";
+                calculator.put(1);
                 break;
             case R.id.button_2:
-                currentNumber += "2";
+                calculator.put(2);
                 break;
             case R.id.button_3:
-                currentNumber += "3";
+                calculator.put(3);
                 break;
             case R.id.button_4:
-                currentNumber += "4";
+                calculator.put(4);
                 break;
             case R.id.button_5:
-                currentNumber += "5";
+                calculator.put(5);
                 break;
             case R.id.button_6:
-                currentNumber += "6";
+                calculator.put(6);
                 break;
             case R.id.button_7:
-                currentNumber += "7";
+                calculator.put(7);
                 break;
             case R.id.button_8:
-                currentNumber += "8";
+                calculator.put(8);
                 break;
             case R.id.button_9:
-                currentNumber += "9";
+                calculator.put(9);
                 break;
-            case R.id.button_0:
-                currentNumber += "0";
+            case R.id.button_CE:
+                calculator.reset();
                 break;
             case R.id.button_multiply:
-                calculator.parse(Double.valueOf(currentNumber), Calculator.MULTIPLY);
-                currentNumber = String.valueOf(calculator.equals());
-                hasFinished = true;
+                calculator.setOperator(Calculator.MULTIPLY);
                 break;
             case R.id.button_divide:
-                calculator.parse(Double.valueOf(currentNumber), Calculator.DIVIDE);
-                currentNumber = String.valueOf(calculator.equals());
-                hasFinished = true;
+                calculator.setOperator(Calculator.DIVIDE);
                 break;
             case R.id.button_plus:
-                calculator.parse(Double.valueOf(currentNumber), Calculator.ADD);
-                currentNumber = String.valueOf(calculator.equals());
-                hasFinished = true;
+                calculator.setOperator(Calculator.ADD);
                 break;
             case R.id.button_minus:
-                calculator.parse(Double.valueOf(currentNumber), Calculator.SUBSTRACT);
-                currentNumber = String.valueOf(calculator.equals());
-                hasFinished = true;
+                calculator.setOperator(Calculator.SUBSTRACT);
                 break;
             case R.id.button_equals:
-                calculator.parse(Double.valueOf(currentNumber), Calculator.ADD);
-                currentNumber = String.valueOf(calculator.equals());
-                hasFinished = true;
+                calculator.equals();
                 break;
 
         }
-        output.setText(currentNumber);
 
+    }
 
+    @Override
+    public void update(Observable o, Object currentNumber) {
+        output.setText(String.valueOf(currentNumber));
+        //int foo = 1;
     }
 }

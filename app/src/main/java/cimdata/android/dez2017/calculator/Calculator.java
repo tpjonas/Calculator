@@ -3,14 +3,16 @@ package cimdata.android.dez2017.calculator;
 import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.util.Observable;
 
 /**
  * Created by Student on 06.12.2017.
  */
 
-public class Calculator {
+public class Calculator extends Observable{
 
-    public double result;
+    public double left;
+    public double right;
 
     public static String MULTIPLY = "multiply";
     public static String ADD = "add";
@@ -21,37 +23,62 @@ public class Calculator {
 
     public Calculator() {
 
-        this.operator = ADD;
-        result = 0;
+        left = right = 0;
 
     }
-    public void parse(double num, String operator) {
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public void put(int digit) {
+
+        if (this.operator == null) {
+            left = left * 10 + digit;
+            setChanged();
+            notifyObservers(left);
+        } else {
+            right = right * 10 + digit;
+            setChanged();
+            notifyObservers(right);
+        }
+
+
+
+    }
+
+    public void equals() {
 
         if (this.operator == MULTIPLY) {
-            result = result * num;
+            left = left * right;
         } else if (this.operator == DIVIDE) {
-            result = result / num;
+            left = left / right;
         } else if (this.operator == ADD) {
-            result = result + num;
+            left = left + right;
         } else if (this.operator == SUBSTRACT) {
-            result = result - num;
+            left = left - right;
         }
-        this.operator = operator;
 
-        Log.d("CALC", String.valueOf(result));
+        right = 0;
+        this.operator = null;
+
+        setChanged();
+        notifyObservers(left);
 
     }
 
-    public double equals() {
-        // reset
-        this.operator = ADD;
-        Double tmp_result = result;
-        result = 0;
+    public void reset() {
 
-        return tmp_result;
+        this.operator = null;
+        left = right = 0;
+
+        setChanged();
+        notifyObservers(0);
+
     }
 
 }
+
+
 
 /**
 
