@@ -28,15 +28,7 @@ public class Calculator extends Observable{
     public void setOperator(String operator) {
 
         calculateResult();
-
-        right = 0;
         this.operator = operator;
-
-        dotIsSet = false;
-
-        setChanged();
-        notifyObservers(left);
-
 
     }
 
@@ -61,14 +53,7 @@ public class Calculator extends Observable{
     public void equals() {
 
         calculateResult();
-
-        right = 0;
         this.operator = null;
-
-        dotIsSet = false;
-
-        setChanged();
-        notifyObservers(left);
 
     }
 
@@ -83,6 +68,11 @@ public class Calculator extends Observable{
         } else if (this.operator == SUBSTRACT) {
             left = left - right;
         }
+
+        right = 0;
+        dotIsSet = false;
+        setChanged();
+        notifyObservers(left);
     }
 
     public void reset() {
@@ -96,6 +86,21 @@ public class Calculator extends Observable{
         notifyObservers(0);
 
     }
+
+    public void changePrefeix() {
+
+        setChanged();
+
+        if (this.operator == null) {
+            left = left * -1;
+            notifyObservers(left);
+        } else {
+            right = right * -1;
+            notifyObservers(right);
+        }
+
+    }
+
 
 }
 
