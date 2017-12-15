@@ -116,16 +116,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 calculator.reset();
                 break;
             case R.id.button_multiply:
-                calculator.setOperator(Calculator.MULTIPLY);
+                calculator.setOperator(Calculator.OperatorType.MULTIPLY);
                 break;
             case R.id.button_divide:
-                calculator.setOperator(Calculator.DIVIDE);
+                calculator.setOperator(Calculator.OperatorType.DIVIDE);
                 break;
             case R.id.button_plus:
-                calculator.setOperator(Calculator.ADD);
+                calculator.setOperator(Calculator.OperatorType.ADD);
                 break;
             case R.id.button_minus:
-                calculator.setOperator(Calculator.SUBSTRACT);
+                calculator.setOperator(Calculator.OperatorType.SUBSTRACT);
                 break;
             case R.id.button_dot:
                 calculator.setDot();

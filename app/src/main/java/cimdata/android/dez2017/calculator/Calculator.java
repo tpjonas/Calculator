@@ -10,27 +10,28 @@ public class Calculator extends Observable{
     private double right;
     private double left;
 
-    public static String MULTIPLY = "multiply";
-    public static String ADD = "add";
-    public static String SUBSTRACT = "substract";
-    public static String DIVIDE = "divide";
+    public enum OperatorType {
+        MULTIPLY, ADD, SUBSTRACT, DIVIDE
+    }
 
-    private String operator;
+
+    private OperatorType operator;
 
     private boolean dotIsSet = false;
 
-
-    private int multiplierBeforeDecimalPoint = 10;
-    private double multiplierAfterDigitalPoint = 1.0;
+    private int multiplierBeforeDecimalPoint;
+    private double multiplierAfterDigitalPoint;
 
 
 
     public Calculator() {
 
         left = right = 0;
+        multiplierBeforeDecimalPoint = 10;
+        multiplierAfterDigitalPoint = 1.0;
 
     }
-    public void setOperator(String operator) {
+    public void setOperator(OperatorType operator) {
 
         calculateResult();
         this.operator = operator;
@@ -66,28 +67,39 @@ public class Calculator extends Observable{
         calculateResult();
         this.operator = null;
 
-
     }
 
     private void calculateResult() {
 
-        if (this.operator == MULTIPLY) {
-            left = left * right;
-        } else if (this.operator == DIVIDE) {
-            left = left / right;
-        } else if (this.operator == ADD) {
-            left = left + right;
-        } else if (this.operator == SUBSTRACT) {
-            left = left - right;
+        switch (this.operator) {
+            case MULTIPLY:
+                left = left * right;
+                break;
+            case DIVIDE:
+                left = left / right;
+                break;
+            case ADD:
+                left = left + right;
+                break;
+            case SUBSTRACT:
+                left = left - right;
+                break;
         }
 
         right = 0;
+
+        resetMultipliers();
+
+        setChanged();
+        notifyObservers(left);
+    }
+
+    private void resetMultipliers() {
+
         dotIsSet = false;
         multiplierBeforeDecimalPoint = 10;
         multiplierAfterDigitalPoint = 1;
 
-        setChanged();
-        notifyObservers(left);
     }
 
     public void reset() {
@@ -95,10 +107,7 @@ public class Calculator extends Observable{
         this.operator = null;
         left = right = 0;
 
-        multiplierBeforeDecimalPoint = 10;
-        multiplierAfterDigitalPoint = 1;
-
-        dotIsSet = false;
+        resetMultipliers();
 
         setChanged();
         notifyObservers(0);
