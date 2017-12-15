@@ -20,6 +20,11 @@ public class Calculator extends Observable{
     private boolean dotIsSet = false;
 
 
+    private int multiplierBeforeDecimalPoint = 10;
+    private double multiplierAfterDigitalPoint = 1.0;
+
+
+
     public Calculator() {
 
         left = right = 0;
@@ -34,12 +39,17 @@ public class Calculator extends Observable{
 
     public void put(int digit) {
 
+        if(dotIsSet) {
+            multiplierBeforeDecimalPoint = 1;
+            multiplierAfterDigitalPoint /= 10;
+        }
+
         if (this.operator == null) {
-            left = left * 10 + digit;
+            left = left * multiplierBeforeDecimalPoint + digit * multiplierAfterDigitalPoint;
             setChanged();
             notifyObservers(left);
         } else {
-            right = right * 10 + digit;
+            right = right * multiplierBeforeDecimalPoint + digit * multiplierAfterDigitalPoint;
             setChanged();
             notifyObservers(right);
         }
@@ -47,6 +57,7 @@ public class Calculator extends Observable{
     }
 
     public void setDot() {
+
         dotIsSet = true;
     }
 
@@ -54,6 +65,7 @@ public class Calculator extends Observable{
 
         calculateResult();
         this.operator = null;
+
 
     }
 
@@ -71,6 +83,9 @@ public class Calculator extends Observable{
 
         right = 0;
         dotIsSet = false;
+        multiplierBeforeDecimalPoint = 10;
+        multiplierAfterDigitalPoint = 1;
+
         setChanged();
         notifyObservers(left);
     }
@@ -79,6 +94,9 @@ public class Calculator extends Observable{
 
         this.operator = null;
         left = right = 0;
+
+        multiplierBeforeDecimalPoint = 10;
+        multiplierAfterDigitalPoint = 1;
 
         dotIsSet = false;
 

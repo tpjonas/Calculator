@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b_ce.setOnClickListener(this);
         b_equals.setOnClickListener(this);
         b_plusminus.setOnClickListener(this);
+        b_dot.setOnClickListener(this);
 
         calculator = new Calculator();
 
